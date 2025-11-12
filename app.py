@@ -31,7 +31,7 @@ ressources = {
             {"titre": "Fiche économies rapides", "desc": "Idées fictives pour réduire les coûts.", "type": "Exercice"}
         ],
         "Accéder à des financements stratégiques": [
-            {"titre": "Guide levée de fonds", "desc": "Fictif, étapes pour convaincre un investisseur.", "type": "Lecture"},
+            {"titre": "Guide levée de fonds", "desc": "Étapes fictives pour convaincre un investisseur.", "type": "Lecture"},
             {"titre": "Pitch deck modèle", "desc": "Template à adapter pour ton projet.", "type": "Outil"}
         ]
     },
@@ -69,6 +69,14 @@ ressources = {
 # LOGIQUE NAVIGATION
 # ------------------------
 
+# Reset automatique si la session est incohérente
+if st.session_state.step == 3:
+    if st.session_state.axe not in ressources or st.session_state.sous_option not in ressources.get(st.session_state.axe, {}):
+        st.warning("⚠️ Sélection invalide. Retour au début.")
+        st.session_state.step = 1
+        st.session_state.axe = None
+        st.session_state.sous_option = None
+
 # Étape 1 : Choix axe
 if st.session_state.step == 1:
     st.subheader("Quel type de besoin veux-tu traiter ?")
@@ -83,7 +91,6 @@ if st.session_state.step == 1:
     st.markdown("💡 Ou si tu sais exactement ce que tu cherches, tape un mot-clé :")
     recherche = st.text_input("Recherche rapide")
     if recherche:
-        # Recherche simple : trouver sous-option contenant le mot-clé
         resultats = []
         for axe_key, sous_options in ressources.items():
             for so_key, res_list in sous_options.items():
@@ -115,15 +122,21 @@ elif st.session_state.step == 2:
 elif st.session_state.step == 3:
     axe = st.session_state.axe
     sous_option = st.session_state.sous_option
-    st.subheader(f"💡 Ressources pour : {sous_option} ({axe})")
+    if axe in ressources and sous_option in ressources[axe]:
+        st.subheader(f"💡 Ressources pour : {sous_option} ({axe})")
+        for r in ressources[axe][sous_option]:
+            st.markdown(f"### {r['titre']} — *{r['type']}*")
+            st.markdown(r['desc'])
+            st.button(f"✨ Explorer {r['titre']}", key=r['titre'])
 
-    for r in ressources[axe][sous_option]:
-        st.markdown(f"### {r['titre']} — *{r['type']}*")
-        st.markdown(r['desc'])
-        st.button(f"✨ Explorer {r['titre']}", key=r['titre'])
-
-    st.markdown("---")
-    if st.button("⬅️ Revenir au début"):
-        st.session_state.step = 1
-        st.session_state.axe = None
-        st.session_state.sous_option = None
+        st.markdown("---")
+        if st.button("⬅️ Revenir au début"):
+            st.session_state.step = 1
+            st.session_state.axe = None
+            st.session_state.sous_option = None
+    else:
+        st.error("⚠️ Ressources introuvables. Reviens au début.")
+        if st.button("⬅️ Revenir au début"):
+            st.session_state.step = 1
+            st.session_state.axe = None
+            st.session_state.sous_option = None
