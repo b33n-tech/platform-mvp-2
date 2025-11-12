@@ -12,59 +12,55 @@ st.markdown("<p style='text-align:center;'>Avançons ensemble, concrètement.</p
 # ------------------------
 if "step" not in st.session_state:
     st.session_state.step = 1
-if "etat" not in st.session_state:
-    st.session_state.etat = None
-if "blocage" not in st.session_state:
-    st.session_state.blocage = None
+if "axe" not in st.session_state:
+    st.session_state.axe = None
+if "sous_option" not in st.session_state:
+    st.session_state.sous_option = None
 
 # ------------------------
 # RESSOURCES FICTIVES
 # ------------------------
 ressources = {
-    "🚀 Passer à l’action": {
-        "Manque de clarté": [
-            {"titre": "Cadre des 3 prochains pas", "desc": "Un outil pour décider rapidement quoi faire dans les 48h.", "type": "Outil"},
-            {"titre": "Méthode Sprint 48h", "desc": "Fiche pour enclencher un mini sprint projet.", "type": "Méthode"},
-            {"titre": "Action directe", "desc": "Définis ton horizon 2 jours / 2 semaines / 2 mois.", "type": "Exercice"}
+    "💰 Ressources & finances": {
+        "Financer temporairement mon projet": [
+            {"titre": "Subventions express", "desc": "Liste fictive de subventions rapides.", "type": "Outil"},
+            {"titre": "Template budget minimal", "desc": "Plan simple pour organiser tes ressources.", "type": "Outil"}
         ],
-        "Manque de cadre": [
-            {"titre": "Template Focus", "desc": "Un modèle Notion pour poser ton cadre hebdo.", "type": "Outil"},
-            {"titre": "Framework du juste effort", "desc": "Comment calibrer ton énergie et tes priorités.", "type": "Ressource"},
-            {"titre": "Mini action", "desc": "Écris ton objectif du jour en une phrase.", "type": "Exercice"}
+        "Optimiser la trésorerie": [
+            {"titre": "Checklist trésorerie", "desc": "Points clés pour anticiper les imprévus.", "type": "Méthode"},
+            {"titre": "Fiche économies rapides", "desc": "Idées fictives pour réduire les coûts.", "type": "Exercice"}
         ],
-        "Peur de mal faire": [
-            {"titre": "Manifeste du progrès imparfait", "desc": "Lecture rapide pour débloquer l’action.", "type": "Lecture"},
-            {"titre": "Fiche ‘Test rapide’", "desc": "Une méthode pour expérimenter sans pression.", "type": "Méthode"},
-            {"titre": "Action mentale", "desc": "Liste 3 micro-victoires récentes.", "type": "Exercice"}
+        "Accéder à des financements stratégiques": [
+            {"titre": "Guide levée de fonds", "desc": "Fictif, étapes pour convaincre un investisseur.", "type": "Lecture"},
+            {"titre": "Pitch deck modèle", "desc": "Template à adapter pour ton projet.", "type": "Outil"}
         ]
     },
-    "🧭 Trouver ma direction": {
-        "Trop d’idées": [
-            {"titre": "Carte de tri des idées", "desc": "Outil visuel pour hiérarchiser tes intuitions.", "type": "Outil"},
-            {"titre": "Méthode du fil rouge", "desc": "Identifier le lien commun à tes projets.", "type": "Méthode"},
-            {"titre": "Action", "desc": "Choisis une idée à explorer 48h sans réfléchir.", "type": "Exercice"}
+    "🛠️ Stratégie & opération": {
+        "Clarifier ou pivoter le business model": [
+            {"titre": "Canvas simplifié", "desc": "Outil fictif pour visualiser ton modèle.", "type": "Outil"},
+            {"titre": "Fiche pivot rapide", "desc": "Méthode pour tester rapidement une nouvelle idée.", "type": "Méthode"}
         ],
-        "Aucune idée claire": [
-            {"titre": "Journal des signaux faibles", "desc": "Note ce qui te touche ou t’énerve chaque jour.", "type": "Exercice"},
-            {"titre": "Podcast ‘L’étincelle’", "desc": "Écoute 3 histoires de projets inattendus.", "type": "Ressource"},
-            {"titre": "Outil: Carte de curiosité", "desc": "Un outil visuel pour repérer tes aimants naturels.", "type": "Outil"}
+        "Prioriser les actions à forte valeur": [
+            {"titre": "Matrix impact/effort", "desc": "Outil fictif pour hiérarchiser les tâches.", "type": "Outil"},
+            {"titre": "Checklist focus 48h", "desc": "Exercice pour choisir 3 actions clés.", "type": "Exercice"}
         ],
-        "Doute sur la bonne voie": [
-            {"titre": "Grille de sens personnel", "desc": "Croise tes valeurs et tes leviers d’énergie.", "type": "Outil"},
-            {"titre": "Lecture : ‘Les bifurcations’", "desc": "Essai court sur le changement de trajectoire.", "type": "Lecture"},
-            {"titre": "Exercice", "desc": "Décris ton projet comme s’il était déjà réalisé.", "type": "Exercice"}
+        "Développer compétences internes": [
+            {"titre": "Plan formation interne", "desc": "Guide fictif pour structurer apprentissage.", "type": "Outil"},
+            {"titre": "Exercice d’auto-évaluation", "desc": "Fiche pour identifier gaps de compétences.", "type": "Exercice"}
         ]
     },
-    "💡 Clarifier mon idée": {
-        "Trop floue": [
-            {"titre": "Template ‘Pitch éclair’", "desc": "Un canevas pour formuler ton idée en 5 phrases.", "type": "Outil"},
-            {"titre": "Méthode ‘Zoom arrière’", "desc": "Prends de la hauteur sur ton intention de départ.", "type": "Méthode"},
-            {"titre": "Exercice", "desc": "Explique ton idée à un ami en 2 min.", "type": "Exercice"}
+    "🌐 Relations & impact": {
+        "Trouver partenaires ou mentors": [
+            {"titre": "Annuaire fictif mentors", "desc": "Liste pour inspiration et contact.", "type": "Ressource"},
+            {"titre": "Fiche réseautage rapide", "desc": "Méthode pour approcher partenaires clés.", "type": "Méthode"}
         ],
-        "Trop complexe": [
-            {"titre": "Fiche ‘Épure’", "desc": "Comment simplifier sans perdre le fond.", "type": "Méthode"},
-            {"titre": "Outil : Carte simplifiée", "desc": "Découpe ton idée en 3 blocs de sens.", "type": "Outil"},
-            {"titre": "Action", "desc": "Écris ta promesse en une phrase de 10 mots max.", "type": "Exercice"}
+        "Gagner en visibilité": [
+            {"titre": "Template post impact", "desc": "Exemple fictif pour communiquer efficacement.", "type": "Outil"},
+            {"titre": "Checklist médias sociaux", "desc": "Guide pour planifier publications simples.", "type": "Méthode"}
+        ],
+        "Mobiliser communauté": [
+            {"titre": "Mini-guide engagement", "desc": "Exercice pour impliquer ta communauté.", "type": "Exercice"},
+            {"titre": "Fiche storytelling", "desc": "Structurer ton récit pour fédérer.", "type": "Méthode"}
         ]
     }
 }
@@ -73,34 +69,55 @@ ressources = {
 # LOGIQUE NAVIGATION
 # ------------------------
 
-# Étape 1 : Choix état
+# Étape 1 : Choix axe
 if st.session_state.step == 1:
-    st.subheader("Où veux-tu avancer aujourd’hui ?")
+    st.subheader("Quel type de besoin veux-tu traiter ?")
     cols = st.columns(3)
-    for i, etat in enumerate(ressources.keys()):
-        if cols[i % 3].button(etat):
-            st.session_state.etat = etat
+    axes = list(ressources.keys())
+    for i, axe in enumerate(axes):
+        if cols[i].button(axe):
+            st.session_state.axe = axe
             st.session_state.step = 2
 
-# Étape 2 : Choix blocage
+    st.markdown("---")
+    st.markdown("💡 Ou si tu sais exactement ce que tu cherches, tape un mot-clé :")
+    recherche = st.text_input("Recherche rapide")
+    if recherche:
+        # Recherche simple : trouver sous-option contenant le mot-clé
+        resultats = []
+        for axe_key, sous_options in ressources.items():
+            for so_key, res_list in sous_options.items():
+                if recherche.lower() in so_key.lower():
+                    resultats.append((axe_key, so_key, res_list))
+        if resultats:
+            for axe_key, so_key, res_list in resultats:
+                st.markdown(f"### {so_key} ({axe_key})")
+                for r in res_list:
+                    st.markdown(f"**{r['titre']}** — *{r['type']}*")
+                    st.markdown(r['desc'])
+
+# Étape 2 : Choix sous-option
 elif st.session_state.step == 2:
-    etat = st.session_state.etat
-    st.subheader(f"🧠 {etat}")
-    st.markdown("Qu’est-ce qui t’empêche d’avancer le plus ?")
-    for blocage in ressources[etat].keys():
-        if st.button(blocage):
-            st.session_state.blocage = blocage
+    axe = st.session_state.axe
+    st.subheader(f"🧠 {axe}")
+    st.markdown("Choisis une option précise :")
+    for sous_option in ressources[axe].keys():
+        if st.button(sous_option):
+            st.session_state.sous_option = sous_option
             st.session_state.step = 3
 
-# Étape 3 : Affichage des ressources
-elif st.session_state.step == 3:
-    etat = st.session_state.etat
-    blocage = st.session_state.blocage
-    st.subheader(f"💡 Ressources pour toi – {etat}")
-    st.markdown(f"*Blocage identifié : {blocage}*")
+    if st.button("⬅️ Revenir au début"):
+        st.session_state.step = 1
+        st.session_state.axe = None
+        st.session_state.sous_option = None
 
-    # cartes de ressources
-    for r in ressources[etat][blocage]:
+# Étape 3 : Affichage ressources
+elif st.session_state.step == 3:
+    axe = st.session_state.axe
+    sous_option = st.session_state.sous_option
+    st.subheader(f"💡 Ressources pour : {sous_option} ({axe})")
+
+    for r in ressources[axe][sous_option]:
         st.markdown(f"### {r['titre']} — *{r['type']}*")
         st.markdown(r['desc'])
         st.button(f"✨ Explorer {r['titre']}", key=r['titre'])
@@ -108,5 +125,5 @@ elif st.session_state.step == 3:
     st.markdown("---")
     if st.button("⬅️ Revenir au début"):
         st.session_state.step = 1
-        st.session_state.etat = None
-        st.session_state.blocage = None
+        st.session_state.axe = None
+        st.session_state.sous_option = None
